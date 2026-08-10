@@ -3,12 +3,30 @@ document.addEventListener("DOMContentLoaded", () => {
     const imageButton =
         document.getElementById("imageButton");
 
+    const cameraButton =
+        document.getElementById("cameraButton");
+
     const imageInput =
         document.getElementById("imageInput");
 
-    if (!imageButton || !imageInput) {
+    const stage =
+        document.querySelector(".visual-stage");
+
+    if (
+        !imageButton ||
+        !cameraButton ||
+        !imageInput ||
+        !stage
+    ) {
         return;
     }
+
+
+    /*
+    ----------------------------------------
+    IMAGE INPUT
+    ----------------------------------------
+    */
 
     imageButton.addEventListener("click", () => {
         imageInput.click();
@@ -17,32 +35,153 @@ document.addEventListener("DOMContentLoaded", () => {
 
     imageInput.addEventListener("change", () => {
 
-        const file = imageInput.files[0];
+        const file =
+            imageInput.files[0];
 
         if (!file) {
             return;
         }
 
-        console.log(
-            "Visual Intelligence input:",
-            file.name
+        showImagePreview(file);
+
+    });
+
+
+    /*
+    ----------------------------------------
+    CAMERA
+    ----------------------------------------
+    */
+
+    cameraButton.addEventListener(
+        "click",
+        async () => {
+
+            if (!navigator.mediaDevices?.getUserMedia) {
+
+                alert(
+                    "Camera access is not supported by this browser."
+                );
+
+                return;
+            }
+
+            try {
+
+                const stream =
+                    await navigator.mediaDevices.getUserMedia({
+                        video: true
+                    });
+
+                openCamera(stream);
+
+            } catch (error) {
+
+                console.error(
+                    "Camera access failed:",
+                    error
+                );
+
+            }
+
+        }
+    );
+
+
+    /*
+    ----------------------------------------
+    IMAGE PREVIEW
+    ----------------------------------------
+    */
+
+    function showImagePreview(file) {
+
+        const url =
+            URL.createObjectURL(file);
+
+        stage.classList.add(
+            "visual-stage--analyzing"
         );
 
-        /*
-            Model inference will be connected here.
+        const preview =
+            document.createElement("img");
 
-            Future pipeline:
+        preview.className =
+            "visual-preview";
 
-            image
-              ↓
-            FastAPI
-              ↓
-            Qwen3-VL
-              ↓
-            Curio
-              ↓
-            structured response
-        */
-    });
+        preview.src = url;
+
+        preview.alt =
+            "Selected image for Curio analysis";
+
+        stage.appendChild(preview);
+
+        updateCurioState(
+            "IMAGE RECEIVED",
+            "Preparing visual analysis..."
+        );
+
+    }
+
+
+    /*
+    ----------------------------------------
+    CURIO STATE
+    ----------------------------------------
+    */
+
+    function updateCurioState(
+        state,
+        message
+    ) {
+
+        const stateElement =
+            document.querySelector(
+                ".visual-core-state"
+            );
+
+        const prompt =
+            document.querySelector(
+                ".visual-prompt p"
+            );
+
+        if (stateElement) {
+            stateElement.textContent = state;
+        }
+
+        if (prompt) {
+            prompt.textContent = message;
+        }
+
+    }
+
+
+    /*
+    ----------------------------------------
+    CAMERA UI
+    ----------------------------------------
+    */
+
+    function openCamera(stream) {
+
+        const video =
+            document.createElement("video");
+
+        video.className =
+            "visual-camera";
+
+        video.autoplay = true;
+        video.playsInline = true;
+
+        video.srcObject = stream;
+
+        stage.appendChild(video);
+
+        updateCurioState(
+            "LIVE VIEW",
+            "Curio is observing."
+        );
+
+    }
 
 });
