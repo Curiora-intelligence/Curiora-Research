@@ -1,0 +1,322 @@
+{% extends "layouts/base.html" %}
+
+{% block title %}
+Curiora Research
+{% endblock %}
+
+{% block content %}
+
+<header class="research-nav">
+
+    <a
+        href="/"
+        class="research-brand"
+    >
+        CURIORA
+    </a>
+
+    <div class="research-nav-links">
+
+        <a href="#systems">
+            Research
+        </a>
+
+        <a href="#experiments">
+            Experiments
+        </a>
+
+        <a href="#about">
+            About
+        </a>
+
+    </div>
+
+    <a
+        href="#visual-intelligence"
+        class="research-nav-action"
+    >
+        Explore
+    </a>
+
+</header>
+
+
+<main>
+
+    <!-- HERO -->
+
+    <section class="research-hero">
+
+        <div class="hero-content">
+
+            <p class="eyebrow">
+                CURIORA RESEARCH
+            </p>
+
+            <h1>
+                Curiosity becomes
+                intelligence.
+            </h1>
+
+            <p class="hero-description">
+                We explore intelligent systems that
+                perceive, reason, and act in the real world.
+            </p>
+
+            <div class="hero-actions">
+
+                <a
+                    href="#visual-intelligence"
+                    class="button-primary"
+                >
+                    Explore research
+                </a>
+
+                <a
+                    href="#experiments"
+                    class="button-secondary"
+                >
+                    View experiments
+                </a>
+
+            </div>
+
+        </div>
+
+        <div class="research-signature">
+
+            <div class="signature-orbit orbit-a"></div>
+            <div class="signature-orbit orbit-b"></div>
+
+            <div class="signature-core">
+
+                <span>
+                    CURIO
+                </span>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- RESEARCH SYSTEMS -->
+
+    <section
+        id="systems"
+        class="research-section"
+    >
+
+        <div class="section-heading">
+
+            <p class="eyebrow">
+                RESEARCH SYSTEMS
+            </p>
+
+            <h2>
+                Intelligence for
+                the real world.
+            </h2>
+
+        </div>
+
+
+        <div
+            id="experiments"
+            class="research-grid"
+        >
+
+            <article class="research-card">
+
+                <span class="card-status">
+                    EXPERIMENTAL
+                </span>
+
+                <h3>
+                    Visual Intelligence
+                </h3>
+
+                <p>
+                    A multimodal system that allows
+                    Curio to understand visual environments,
+                    explain what it observes, and assist
+                    with real-world tasks.
+                </p>
+
+                <a
+                    href="#visual-intelligence"
+                    class="card-link"
+                >
+                    Explore experiment
+                    <span>→</span>
+                </a>
+
+            </article>
+
+
+            <article class="research-card">
+
+                <span class="card-status">
+                    IN DEVELOPMENT
+                </span>
+
+                <h3>
+                    Intelligent Reasoning
+                </h3>
+
+                <p>
+                    Research into systems that combine
+                    perception, reasoning, context,
+                    and action.
+                </p>
+
+                <span class="card-link muted">
+                    Coming soon
+                </span>
+
+            </article>
+
+
+            <article class="research-card">
+
+                <span class="card-status">
+                    IN DEVELOPMENT
+                </span>
+
+                <h3>
+                    Research Agents
+                </h3>
+
+                <p>
+                    Exploring systems that can retrieve
+                    information, reason over evidence,
+                    and assist people with complex work.
+                </p>
+
+                <span class="card-link muted">
+                    Coming soon
+                </span>
+
+            </article>
+
+        </div>
+
+    </section>
+
+
+    <!-- VISUAL INTELLIGENCE -->
+
+    <section
+        id="visual-intelligence"
+        class="visual-section"
+    >
+
+        <div class="visual-intro">
+
+            <p class="eyebrow">
+                LIVE EXPERIMENT
+            </p>
+
+            <h2>
+                Visual Intelligence
+            </h2>
+
+            <p>
+                See the world through Curio.
+            </p>
+
+        </div>
+
+
+        <div class="visual-stage">
+
+            <div class="visual-orbit orbit-a"></div>
+            <div class="visual-orbit orbit-b"></div>
+
+            <div class="visual-core">
+
+                <span class="visual-core-label">
+                    CURIO
+                </span>
+
+                <span class="visual-core-state">
+                    READY TO OBSERVE
+                </span>
+
+            </div>
+
+
+            <div class="visual-prompt">
+
+                <p>
+                    Point Curio toward something
+                    or provide an image to begin.
+                </p>
+
+                <div class="visual-actions">
+
+                    <button
+                        type="button"
+                        class="visual-button"
+                        id="cameraButton"
+                    >
+                        Use camera
+                    </button>
+
+                    <button
+                        type="button"
+                        class="visual-button primary"
+                        id="imageButton"
+                    >
+                        Add image
+                    </button>
+
+                </div>
+
+                <input
+                    type="file"
+                    id="imageInput"
+                    accept="image/*"
+                    hidden
+                >
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- FUTURE -->
+
+    <section
+        id="about"
+        class="research-statement"
+    >
+
+        <p>
+            We don't build intelligence
+            to replace curiosity.
+            We build it to extend what
+            curiosity can discover.
+        </p>
+
+    </section>
+
+</main>
+
+
+<footer class="research-footer">
+
+    <span>
+        CURIORA RESEARCH
+    </span>
+
+    <span>
+        Experimental systems for the real world.
+    </span>
+
+</footer>
+
+{% endblock %}
