@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="UTF-8">
 
     <meta
@@ -9,7 +10,12 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>{% block title %}Curiora Research{% endblock %}</title>
+    <title>
+        {% block title %}
+            Curiora Research
+        {% endblock %}
+    </title>
+
 
     <link
         rel="stylesheet"
@@ -20,14 +26,23 @@
         rel="stylesheet"
         href="/static/css/visual-intelligence.css"
     >
+
 </head>
+
 
 <body>
 
-    {% block content %}{% endblock %}
+    {% block content %}
+    {% endblock %}
 
-    <script src="/static/js/research.js"></script>
-    <script src="/static/js/visual-intelligence.js"></script>
+
+    <script
+        src="/static/js/research.js"
+    ></script>
+
+    <script
+        src="/static/js/visual-intelligence.js"
+    ></script>
 
 </body>
 

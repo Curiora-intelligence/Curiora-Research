@@ -1,6 +1,6 @@
-/* =========================
-   VISUAL INTELLIGENCE
-========================= */
+/* =========================================================
+   CURIO VISUAL INTELLIGENCE
+========================================================= */
 
 .visual-section {
     min-height: 100vh;
@@ -40,13 +40,22 @@
 }
 
 
+/* =========================================================
+   MAIN STAGE
+========================================================= */
+
 .visual-stage {
     position: relative;
 
-    width: min(900px, 100%);
-    min-height: 600px;
+    width: min(960px, 100%);
+
+    min-height: 660px;
 
     margin-top: 70px;
+
+    padding:
+        48px 40px
+        42px;
 
     display: flex;
     flex-direction: column;
@@ -62,13 +71,17 @@
 
     background:
         radial-gradient(
-            circle at 50% 40%,
-            rgba(225, 239, 255, .7),
-            rgba(255, 255, 255, .35) 45%,
-            rgba(255, 255, 255, .7) 100%
+            circle at 50% 35%,
+            rgba(225, 239, 255, .72),
+            rgba(255, 255, 255, .42) 45%,
+            rgba(255, 255, 255, .78) 100%
         );
 }
 
+
+/* =========================================================
+   ORBITS
+========================================================= */
 
 .visual-orbit {
     position: absolute;
@@ -79,6 +92,8 @@
         1px solid rgba(0, 113, 227, .14);
 
     pointer-events: none;
+
+    z-index: 0;
 }
 
 
@@ -87,6 +102,12 @@
     height: 190px;
 
     transform: rotate(-9deg);
+
+    animation:
+        visualOrbitA
+        11s
+        ease-in-out
+        infinite;
 }
 
 
@@ -95,12 +116,59 @@
     height: 310px;
 
     transform: rotate(14deg);
+
+    animation:
+        visualOrbitB
+        14s
+        ease-in-out
+        infinite;
 }
 
 
+@keyframes visualOrbitA {
+
+    0%,
+    100% {
+        transform:
+            rotate(-9deg)
+            translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform:
+            rotate(-5deg)
+            translate3d(10px, -5px, 0);
+    }
+
+}
+
+
+@keyframes visualOrbitB {
+
+    0%,
+    100% {
+        transform:
+            rotate(14deg)
+            translate3d(0, 0, 0);
+    }
+
+    50% {
+        transform:
+            rotate(19deg)
+            translate3d(-8px, 6px, 0);
+    }
+
+}
+
+
+/* =========================================================
+   CURIO CORE
+========================================================= */
+
 .visual-core {
     position: relative;
-    z-index: 2;
+
+    z-index: 4;
 
     width: 210px;
     height: 110px;
@@ -131,6 +199,10 @@
     box-shadow:
         0 25px 70px rgba(0, 90, 220, .12),
         inset 0 1px 0 rgba(255, 255, 255, .95);
+
+    transition:
+        transform 220ms cubic-bezier(.2, .8, .2, 1),
+        box-shadow 220ms ease;
 }
 
 
@@ -149,32 +221,183 @@
     font-weight: 600;
 
     letter-spacing: .12em;
-}
-
-
-.visual-prompt {
-    position: absolute;
-
-    bottom: 38px;
-
-    z-index: 5;
 
     text-align: center;
 }
 
 
-.visual-prompt p {
-    margin-bottom: 18px;
+/* =========================================================
+   CAMERA VIEWPORT
+========================================================= */
 
-    color: var(--research-secondary);
+.camera-container {
+    position: relative;
+
+    z-index: 3;
+
+    width: min(760px, 100%);
+
+    aspect-ratio: 16 / 10;
+
+    margin-top: 30px;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background: #080b10;
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, .14);
+
+    isolation: isolate;
+}
+
+
+.visual-camera {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+
+    transform: scaleX(-1);
+
+    background: #080b10;
+
+    transition:
+        opacity 220ms ease;
+}
+
+/* =========================================================
+   CAMERA STATUS
+========================================================= */
+
+.camera-status {
+    position: absolute;
+
+    top: 18px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 3;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        8px 13px;
+
+    border-radius:
+        var(--research-pill);
+
+    background:
+        rgba(255, 255, 255, .82);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    color:
+        rgba(20, 25, 35, .82);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.camera-status-dot {
+    width: 7px;
+    height: 7px;
+
+    flex: 0 0 7px;
+
+    border-radius: 50%;
+
+    background:
+        var(--research-accent);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(0, 113, 227, .10);
+}
+
+
+/* =========================================================
+   IMAGE PREVIEW
+========================================================= */
+
+.visual-preview {
+    position: relative;
+
+    z-index: 3;
+
+    width: min(760px, 100%);
+
+    max-height: 460px;
+
+    margin-top: 30px;
+
+    object-fit: contain;
+
+    border-radius: 30px;
+
+    background:
+        #ffffff;
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, .10);
+}
+
+
+/* =========================================================
+   CONTROLS
+========================================================= */
+
+.visual-prompt {
+    position: relative;
+
+    z-index: 6;
+
+    margin-top: 36px;
+
+    text-align: center;
+
+    width: 100%;
+}
+
+
+.visual-prompt p {
+    margin:
+        0 0 18px;
+
+    color:
+        var(--research-secondary);
 
     font-size: 14px;
+
+    line-height: 1.5;
 }
 
 
 .visual-actions {
     display: flex;
+
+    align-items: center;
+
     justify-content: center;
+
+    flex-wrap: wrap;
 
     gap: 10px;
 }
@@ -183,41 +406,816 @@
 .visual-button {
     min-height: 42px;
 
-    padding: 0 18px;
+    padding:
+        0 18px;
 
-    border: 1px solid rgba(0, 0, 0, .10);
+    border:
+        1px solid rgba(0, 0, 0, .10);
 
-    border-radius: 999px;
+    border-radius:
+        var(--research-pill);
 
     background:
-        rgba(255, 255, 255, .72);
+        rgba(255, 255, 255, .78);
 
-    color: var(--research-text);
+    color:
+        var(--research-text);
+
+    font-size:
+        14px;
+
+    font-weight:
+        600;
+
+    cursor:
+        pointer;
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        border-color 180ms ease,
+        color 180ms ease,
+        opacity 180ms ease;
+}
+
+
+.visual-button:hover {
+    transform:
+        translateY(-2px);
+
+    background:
+        rgba(255, 255, 255, .96);
+}
+
+
+.visual-button:active {
+    transform:
+        translateY(0);
+}
+
+
+.visual-button.primary {
+    border-color:
+        transparent;
+
+    background:
+        var(--research-accent);
+
+    color:
+        white;
+}
+
+
+.visual-button.primary:hover {
+    background:
+        #0066cc;
+}
+
+
+.visual-button.danger {
+    color:
+        #b42318;
+
+    border-color:
+        rgba(180, 35, 24, .18);
+
+    background:
+        rgba(255, 255, 255, .78);
+}
+
+
+.visual-button.danger:hover {
+    background:
+        rgba(255, 245, 244, .96);
+}
+
+
+/* =========================================================
+   CAMERA ACTIVE STATE
+========================================================= */
+
+.visual-stage.camera-active
+.visual-core {
+    transform:
+        translateY(-10px)
+        scale(.96);
+}
+
+
+.visual-stage.camera-paused
+.visual-camera {
+    opacity: .45;
+}
+
+
+.visual-stage.camera-paused
+.camera-status-dot {
+    opacity: .45;
+}
+
+
+/* =========================================================
+   HIDDEN ELEMENTS
+========================================================= */
+
+[hidden] {
+    display: none !important;
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+    .visual-orbit.orbit-a,
+    .visual-orbit.orbit-b {
+        animation: none;
+    }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .visual-section {
+        padding:
+            110px 20px;
+    }
+
+
+    .visual-stage {
+        min-height: 600px;
+
+        padding:
+            32px 18px
+            28px;
+
+        border-radius: 30px;
+    }
+
+
+    .visual-core {
+        width: 180px;
+        height: 92px;
+
+        border-radius: 26px;
+    }
+
+
+    .visual-orbit.orbit-a {
+        width: 420px;
+        height: 140px;
+    }
+
+
+    .visual-orbit.orbit-b {
+        width: 340px;
+        height: 210px;
+    }
+
+
+    .camera-container {
+        width: 100%;
+
+        border-radius: 24px;
+    }
+
+
+    .visual-preview {
+        width: 100%;
+
+        border-radius: 24px;
+    }
+
+
+    .visual-actions {
+        flex-direction: column;
+
+        width: 100%;
+    }
+
+
+    .visual-button {
+        width: min(320px, 100%);
+    }
+
+}
+
+/* =========================================================
+   IMAGE CONTAINER + CANCEL
+========================================================= */
+
+.image-container {
+    position: relative;
+
+    z-index: 3;
+
+    width: min(760px, 100%);
+
+    aspect-ratio: 16 / 10;
+
+    margin-top: 30px;
+
+    overflow: hidden;
+
+    border-radius: 30px;
+
+    background: #ffffff;
+
+    box-shadow:
+        0 24px 70px rgba(0, 0, 0, .10);
+
+    isolation: isolate;
+}
+
+
+.image-container .visual-preview {
+    display: block;
+
+    width: 100%;
+    height: 100%;
+
+    max-height: none;
+
+    margin-top: 0;
+
+    object-fit: contain;
+
+    border-radius: 0;
+
+    box-shadow: none;
+
+    background: #ffffff;
+}
+
+
+.image-cancel-button {
+    position: absolute;
+
+    top: 16px;
+    right: 16px;
+
+    z-index: 5;
+
+    width: 38px;
+    height: 38px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 1px solid rgba(0, 0, 0, .08);
+
+    border-radius: 50%;
+
+    background:
+        rgba(255, 255, 255, .84);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    color:
+        rgba(20, 25, 35, .78);
+
+    font-size: 22px;
+
+    line-height: 1;
+
+    cursor: pointer;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, .08);
+
+    transition:
+        transform 180ms ease,
+        background 180ms ease,
+        color 180ms ease;
+}
+
+
+.image-cancel-button:hover {
+    transform:
+        scale(1.05);
+
+    background:
+        rgba(255, 255, 255, .98);
+
+    color:
+        rgba(20, 25, 35, 1);
+}
+
+
+.image-cancel-button:active {
+    transform:
+        scale(.96);
+}
+
+
+/* =========================================================
+   IMAGE STATUS
+========================================================= */
+
+.image-status {
+    position: absolute;
+
+    top: 18px;
+    left: 50%;
+
+    transform: translateX(-50%);
+
+    z-index: 4;
+
+    display: inline-flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    padding:
+        8px 13px;
+
+    border-radius:
+        var(--research-pill);
+
+    background:
+        rgba(255, 255, 255, .84);
+
+    backdrop-filter:
+        blur(18px);
+
+    -webkit-backdrop-filter:
+        blur(18px);
+
+    color:
+        rgba(20, 25, 35, .82);
+
+    font-size: 12px;
+
+    font-weight: 600;
+
+    white-space: nowrap;
+}
+
+
+.image-status-dot {
+    width: 7px;
+    height: 7px;
+
+    flex: 0 0 7px;
+
+    border-radius: 50%;
+
+    background:
+        var(--research-accent);
+
+    box-shadow:
+        0 0 0 4px
+        rgba(0, 113, 227, .10);
+}
+
+
+/* =========================================================
+   IMAGE CONVERSATION
+========================================================= */
+
+.image-conversation {
+    position: relative;
+
+    z-index: 7;
+
+    width: min(760px, 100%);
+
+    margin-top: 24px;
+}
+
+
+.image-conversation-status {
+    margin:
+        0 0 12px;
+
+    color:
+        var(--research-secondary);
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+    text-align: center;
+}
+
+
+.image-message-form {
+    position: relative;
+
+    display: flex;
+
+    align-items: flex-end;
+
+    gap: 7px;
+
+    width: 100%;
+
+    padding:
+        8px 8px 8px 16px;
+
+    border:
+        1px solid rgba(0, 0, 0, .10);
+
+    border-radius:
+        22px;
+
+    background:
+        rgba(255, 255, 255, .78);
+
+    backdrop-filter:
+        blur(24px)
+        saturate(180%);
+
+    -webkit-backdrop-filter:
+        blur(24px)
+        saturate(180%);
+
+    box-shadow:
+        0 18px 50px rgba(0, 90, 220, .08),
+        inset 0 1px 0 rgba(255, 255, 255, .9);
+}
+
+
+.image-message-input {
+    flex: 1;
+
+    min-width: 0;
+
+    min-height: 42px;
+    max-height: 140px;
+
+    padding:
+        10px 0;
+
+    resize: none;
+
+    border: 0;
+
+    outline: 0;
+
+    background:
+        transparent;
+
+    color:
+        var(--research-text);
+
+    font:
+        inherit;
 
     font-size: 14px;
-    font-weight: 600;
+
+    line-height: 1.45;
+}
+
+
+.image-message-input::placeholder {
+    color:
+        var(--research-secondary);
+}
+
+
+.image-voice-button,
+.image-send-button {
+    width: 40px;
+    height: 40px;
+
+    flex:
+        0 0 40px;
+
+    display: inline-flex;
+
+    align-items: center;
+    justify-content: center;
+
+    border: 0;
+
+    border-radius: 50%;
 
     cursor: pointer;
 
     transition:
         transform 180ms ease,
-        background 180ms ease;
+        opacity 180ms ease,
+        background 180ms ease,
+        box-shadow 180ms ease;
 }
 
 
-.visual-button:hover {
-    transform: translateY(-2px);
+.image-voice-button {
+    position: relative;
 
     background:
-        rgba(255, 255, 255, .95);
+        rgba(0, 0, 0, .055);
+
+    color:
+        var(--research-text);
 }
 
 
-.visual-button.primary {
-    border-color: transparent;
+.image-voice-icon {
+    width: 8px;
+    height: 8px;
+
+    display: block;
+
+    border-radius: 50%;
+
+    font-size: 0;
+
+    background:
+        currentColor;
+
+    transition:
+        transform 180ms ease,
+        opacity 180ms ease;
+}
+
+
+.image-voice-button:hover {
+    transform:
+        translateY(-1px);
+
+    background:
+        rgba(0, 0, 0, .09);
+}
+
+
+.image-voice-button:active {
+    transform:
+        translateY(0);
+}
+
+
+/* Microphone active state:
+   same icon, only the visual state changes. */
+
+.image-voice-button.is-listening {
+    color:
+        var(--research-accent);
+
+    background:
+        rgba(0, 113, 227, .10);
+
+    box-shadow:
+        0 0 0 5px rgba(0, 113, 227, .08),
+        0 0 28px rgba(0, 113, 227, .18);
+
+    animation:
+        curioVoicePulse
+        1.7s
+        ease-in-out
+        infinite;
+}
+
+
+.image-voice-button.is-listening .image-voice-icon {
+    transform:
+        scale(1.35);
+
+    box-shadow:
+        0 0 0 4px rgba(0, 113, 227, .10);
+}
+
+
+.image-voice-button.is-listening:hover {
+    background:
+        rgba(0, 113, 227, .13);
+}
+
+
+@keyframes curioVoicePulse {
+
+    0%,
+    100% {
+        box-shadow:
+            0 0 0 5px rgba(0, 113, 227, .07),
+            0 0 22px rgba(0, 113, 227, .12);
+    }
+
+    50% {
+        box-shadow:
+            0 0 0 8px rgba(0, 113, 227, .10),
+            0 0 34px rgba(0, 113, 227, .22);
+    }
+
+}
+
+
+.image-send-button {
+    background:
+        var(--research-accent);
+
+    color:
+        white;
+
+    font-size: 20px;
+
+    font-weight: 600;
+}
+
+
+.image-send-button:hover {
+    transform:
+        translateY(-1px);
+
+    background:
+        #0066cc;
+}
+
+
+.image-send-button:active {
+    transform:
+        translateY(0);
+}
+
+
+.image-send-button:disabled,
+.image-voice-button:disabled {
+    opacity: .45;
+
+    cursor:
+        not-allowed;
+
+    transform:
+        none;
+}
+
+
+/* =========================================================
+   VOICE STATUS
+========================================================= */
+
+.image-voice-status {
+    min-height: 18px;
+
+    margin-top: 7px;
+
+    color:
+        var(--research-secondary);
+
+    font-size: 11px;
+
+    text-align: center;
+
+    opacity: .85;
+
+    transition:
+        color 180ms ease,
+        opacity 180ms ease;
+}
+
+
+.image-voice-status.is-listening {
+    color:
+        var(--research-accent);
+
+    opacity: 1;
+}
+
+
+/* =========================================================
+   CONVERSATION LOG
+========================================================= */
+
+.image-conversation-log {
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 10px;
+
+    margin-top: 16px;
+
+    max-height: 220px;
+
+    overflow-y: auto;
+}
+
+
+.image-message {
+    max-width: 82%;
+
+    padding:
+        10px 14px;
+
+    border-radius:
+        18px;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+}
+
+
+.image-message.user {
+    align-self: flex-end;
 
     background:
         var(--research-accent);
 
-    color: white;
+    color:
+        white;
+
+    border-bottom-right-radius:
+        6px;
+}
+
+
+.image-message.curio {
+    align-self: flex-start;
+
+    background:
+        rgba(255, 255, 255, .72);
+
+    border:
+        1px solid rgba(0, 0, 0, .07);
+
+    color:
+        var(--research-text);
+
+    border-bottom-left-radius:
+        6px;
+}
+
+
+/* =========================================================
+   ACCESSIBILITY
+========================================================= */
+
+.sr-only {
+    position: absolute;
+
+    width: 1px;
+    height: 1px;
+
+    padding: 0;
+    margin: -1px;
+
+    overflow: hidden;
+
+    clip: rect(0, 0, 0, 0);
+
+    white-space: nowrap;
+
+    border: 0;
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 700px) {
+
+    .image-container {
+        width: 100%;
+
+        border-radius: 24px;
+    }
+
+
+    .image-cancel-button {
+        top: 12px;
+        right: 12px;
+
+        width: 36px;
+        height: 36px;
+    }
+
+
+    .image-conversation {
+        width: 100%;
+    }
+
+
+    .image-message-form {
+        border-radius: 20px;
+
+        padding-left: 14px;
+    }
+
+
+    .image-voice-button,
+    .image-send-button {
+        width: 38px;
+        height: 38px;
+
+        flex-basis: 38px;
+    }
+
 }

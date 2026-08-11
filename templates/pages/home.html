@@ -234,24 +234,98 @@ Curiora Research
             <div class="visual-orbit orbit-a"></div>
             <div class="visual-orbit orbit-b"></div>
 
+
+            <!-- CURIO CORE -->
+
             <div class="visual-core">
 
                 <span class="visual-core-label">
                     CURIO
                 </span>
 
-                
-
-                <span class="visual-core-state">
+                <span
+                    class="visual-core-state"
+                    id="visualCoreState"
+                >
                     READY TO OBSERVE
                 </span>
 
             </div>
 
 
-            <div class="visual-prompt">
+            <!-- CAMERA VIEW -->
 
-                <p>
+            <div
+                class="camera-container"
+                id="cameraContainer"
+                hidden
+            >
+
+                <video
+                    id="cameraPreview"
+                    class="visual-camera"
+                    autoplay
+                    playsinline
+                    muted
+                ></video>
+
+                <div class="camera-status">
+
+                    <span class="camera-status-dot"></span>
+
+                    <span id="cameraStatus">
+                        Curio is observing
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- IMAGE PREVIEW -->
+
+            <div
+                class="image-container"
+                id="imageContainer"
+                hidden
+            >
+
+                <img
+                    id="imagePreview"
+                    class="visual-preview"
+                    alt="Selected image for Curio analysis"
+                >
+
+                <button
+                    type="button"
+                    class="image-cancel-button"
+                    id="cancelImageButton"
+                    aria-label="Remove image"
+                >
+                    <span aria-hidden="true">×</span>
+                </button>
+
+                <div class="image-status">
+
+                    <span class="image-status-dot"></span>
+
+                    <span id="imageStatus">
+                        Curio is ready to examine this image
+                    </span>
+
+                </div>
+
+            </div>
+
+
+            <!-- IDLE CONTROLS -->
+
+            <div
+                class="visual-prompt"
+                id="idleControls"
+            >
+
+                <p id="visualPrompt">
                     Point Curio toward something
                     or provide an image to begin.
                 </p>
@@ -276,14 +350,133 @@ Curiora Research
 
                 </div>
 
-                <input
-                    type="file"
-                    id="imageInput"
-                    accept="image/*"
-                    hidden
-                >
+            </div>
+
+
+            <!-- CAMERA CONTROLS -->
+
+            <div
+                class="visual-prompt camera-controls"
+                id="cameraControls"
+                hidden
+            >
+
+                <p id="cameraPrompt">
+                    Curio is observing your environment.
+                </p>
+
+                <div class="visual-actions">
+
+                    <button
+                        type="button"
+                        class="visual-button"
+                        id="videoPauseButton"
+                    >
+                        Video pause
+                    </button>
+
+                    <button
+                        type="button"
+                        class="visual-button"
+                        id="microphonePauseButton"
+                    >
+                        Microphone pause
+                    </button>
+
+                    <button
+                        type="button"
+                        class="visual-button danger"
+                        id="cancelCameraButton"
+                    >
+                        Cancel
+                    </button>
+
+                </div>
 
             </div>
+
+
+            <!-- IMAGE CONVERSATION -->
+
+            <div
+                class="image-conversation"
+                id="imageConversation"
+                hidden
+            >
+
+                <p
+                    class="image-conversation-status"
+                    id="imageConversationStatus"
+                >
+                    Curio is ready to examine this image.
+                </p>
+
+                <form
+                    class="image-message-form"
+                    id="imageMessageForm"
+                >
+
+                    <label
+                        class="sr-only"
+                        for="imageMessageInput"
+                    >
+                        Ask Curio about this image
+                    </label>
+
+                    <textarea
+                        id="imageMessageInput"
+                        class="image-message-input"
+                        rows="1"
+                        placeholder="Ask Curio about this image..."
+                        autocomplete="off"
+                    ></textarea>
+
+                    <button
+                        type="button"
+                        class="image-voice-button"
+                        id="imageVoiceButton"
+                        aria-label="Start voice input"
+                        aria-pressed="false"
+                    >
+                        <span class="image-voice-icon" aria-hidden="true">●</span>
+                    </button>
+
+                    <button
+                        type="submit"
+                        class="image-send-button"
+                        id="imageSendButton"
+                        aria-label="Send message"
+                    >
+                        <span aria-hidden="true">↑</span>
+                    </button>
+
+                </form>
+
+                <div
+                    class="image-voice-status"
+                    id="imageVoiceStatus"
+                    aria-live="polite"
+                >
+                    Voice input off
+                </div>
+
+                <div
+                    class="image-conversation-log"
+                    id="imageConversationLog"
+                    aria-live="polite"
+                ></div>
+
+            </div>
+
+
+            <!-- IMAGE INPUT -->
+
+            <input
+                type="file"
+                id="imageInput"
+                accept="image/*"
+                hidden
+            >
 
         </div>
 
