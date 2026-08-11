@@ -1,13 +1,13 @@
 from fastapi import FastAPI, Request
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
-
-app = FastAPI(title="saiganesh",docs_url=None,redoc_url=None,openapi_external_docs=None)
+from app.routes.curio import curio_router 
+app = FastAPI(title="saiganesh")
 
 app.mount("/static",StaticFiles(directory="static"),name="static",)
 
 templates = Jinja2Templates(directory="templates")
-
+app.include_router(curio_router)
 #routers
 @app.get("/")
 async def research_home(request: Request):

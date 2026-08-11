@@ -605,108 +605,116 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    function prepareImageMessage(
-        message
-    ) {
+    async function prepareImageMessage(message) {
 
-        imageConversationStatus.textContent =
-            "Curio is preparing a visual response...";
-
-
-        imageStatus.textContent =
-            "Analyzing image";
-
-
-        visualCoreState.textContent =
-            "THINKING";
-
-
-        /*
-        Temporary UI response.
-
-        Later this function becomes the
-        Qwen3-VL request:
-
-            image + message
-                ↓
-            multimodal model
-                ↓
-            Curio response
-        */
-
-        window.setTimeout(() => {
-
-            imageConversationStatus.textContent =
-                "Curio is ready for another question.";
-
-
-            imageStatus.textContent =
-                "Curio is ready";
-
-
-            visualCoreState.textContent =
-                "IMAGE READY";
-
-
-            addConversationMessage(
-                "curio",
-                "I have received your image. The visual intelligence model will analyze the image together with your message when the inference backend is connected."
-            );
-
-        }, 450);
-
+    if (!selectedImageFile) {
+        return;
     }
 
+    imageConversationStatus.textContent =
+        "Curio is analyzing the image...";
 
-    imageMessageForm.addEventListener(
-        "submit",
-        event => {
+    imageStatus.textContent =
+        "Analyzing image";
 
-            event.preventDefault();
+    visualCoreState.textContent =
+        "THINKING";
 
+    imageSendButton.disabled = true;
 
-            const message =
-                imageMessageInput.value.trim();
+    try {
 
+        const formData = new FormData();
 
-            if (!selectedImageFile) {
-                return;
+        formData.append(
+            "image",
+            selectedImageFile
+        );
+
+        formData.append(
+            "message",
+            message
+        );
+
+        const response = await fetch(
+            "/curio/analyze",
+            {
+                method: "POST",
+                body: formData
+            }
+        );
+
+        if (!response.ok) {
+
+            let detail =
+                "Curio could not analyze the image.";
+
+            try {
+
+                const errorData =
+                    await response.json();
+
+                if (errorData.detail) {
+                    detail = errorData.detail;
+                }
+
+            } catch (_) {
+                // Keep the default error message.
             }
 
-
-            if (!message) {
-
-                imageMessageInput.focus();
-
-                return;
-            }
-
-
-            if (voiceInputActive) {
-                stopImageVoiceInput();
-            }
-
-
-            addConversationMessage(
-                "user",
-                message
-            );
-
-
-            imageMessageInput.value = "";
-
-            imageMessageInput.style.height =
-                "auto";
-
-
-            prepareImageMessage(
-                message
-            );
-
+            throw new Error(detail);
         }
-    );
 
+        const data =
+            await response.json();
 
+        if (!data.success) {
+            throw new Error(
+                "Curio did not return a successful response."
+            );
+        }
+
+        addConversationMessage(
+            "curio",
+            data.answer
+        );
+
+        imageConversationStatus.textContent =
+            "Curio is ready for another question.";
+
+        imageStatus.textContent =
+            "Curio is ready";
+
+        visualCoreState.textContent =
+            "IMAGE READY";
+
+    } catch (error) {
+
+        console.error(
+            "Curio image analysis failed:",
+            error
+        );
+
+        imageConversationStatus.textContent =
+            "Curio could not complete the analysis.";
+
+        imageStatus.textContent =
+            "Analysis failed";
+
+        visualCoreState.textContent =
+            "READY";
+
+        addConversationMessage(
+            "curio",
+            `I couldn't process that image. ${error.message}`
+        );
+
+    } finally {
+
+        imageSendButton.disabled = false;
+
+    }
+}
     /*
     Auto-grow image message input.
     */
