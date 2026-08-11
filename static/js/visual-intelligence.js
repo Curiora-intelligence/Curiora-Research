@@ -715,6 +715,33 @@ document.addEventListener("DOMContentLoaded", () => {
 
     }
 }
+imageMessageForm.addEventListener(
+    "submit",
+    async (event) => {
+        event.preventDefault();
+
+        if (!selectedImageFile) {
+            return;
+        }
+
+        const message =
+            imageMessageInput.value.trim();
+
+        if (!message) {
+            return;
+        }
+
+        addConversationMessage(
+            "user",
+            message
+        );
+
+        imageMessageInput.value = "";
+        imageMessageInput.style.height = "auto";
+
+        await prepareImageMessage(message);
+    }
+);
     /*
     Auto-grow image message input.
     */
