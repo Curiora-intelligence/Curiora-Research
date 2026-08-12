@@ -1,7 +1,10 @@
 from fastapi import FastAPI, Request
+from dotenv import load_dotenv
+load_dotenv()
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from app.routers.curio import curio_router 
+from cryptography.fernet import Fernet
 app = FastAPI(title="saiganesh")
 
 app.mount("/static",StaticFiles(directory="static"),name="static",)
