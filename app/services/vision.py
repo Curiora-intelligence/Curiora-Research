@@ -1,8 +1,6 @@
 from __future__ import annotations
-
 import threading
 from pathlib import Path
-
 from mlx_vlm import load, generate
 from mlx_vlm.prompt_utils import apply_chat_template
 from mlx_vlm.utils import load_config
@@ -14,16 +12,16 @@ MAX_TOKENS = 384
 TEMPERATURE = 0.2
 
 
-_model = None
-_processor = None
-_config = None
+model = None
+processor = None
+config = None
 
-_model_lock = threading.Lock()
-_inference_lock = threading.Lock()
+model_lock = threading.Lock()
+inference_lock = threading.Lock()
 
 
 SYSTEM_PROMPT = """
-You are Curio, the visual intelligence model developed by saiganesh sattenapalli the founder of Curiora.
+You are Curio, the visual intelligence model developed by saiganesh sattenapalli.
 
 Your job is to help people understand the visual world.
 
@@ -47,7 +45,7 @@ providing useful reasoning.
 """.strip()
 
 
-def _load_model() -> tuple:
+def load_model() -> tuple:
     """
     Load Curio exactly once.
 
@@ -55,35 +53,35 @@ def _load_model() -> tuple:
     allocate approximately 10+ GB of unified memory.
     """
 
-    global _model
-    global _processor
-    global _config
+    global model
+    global processor
+    global config
 
     if (
-        _model is not None
-        and _processor is not None
-        and _config is not None
+        model is not None
+        and processor is not None
+        and config is not None
     ):
-        return _model, _processor, _config
+        return model, processor, config
 
-    with _model_lock:
+    with model_lock:
 
         if (
-            _model is not None
-            and _processor is not None
-            and _config is not None
+            model is not None
+            and processor is not None
+            and config is not None
         ):
-            return _model, _processor, _config
+            return model, processor, config
 
         print("Loading Curio vision model...")
         print(f"Model: {MODEL_ID}")
 
-        _model, _processor = load(MODEL_ID)
-        _config = load_config(MODEL_ID)
+        model, processor = load(MODEL_ID)
+        config = load_config(MODEL_ID)
 
         print("Curio vision model loaded.")
 
-    return _model, _processor, _config
+    return model, processor, config
 
 
 def analyze_image(image_path: str | Path,message: str = "",) -> str:
@@ -102,11 +100,9 @@ def analyze_image(image_path: str | Path,message: str = "",) -> str:
     image_path = Path(image_path)
 
     if not image_path.is_file():
-        raise FileNotFoundError(
-            f"Image file not found: {image_path}"
-        )
+        raise FileNotFoundError(f"Image file not found: {image_path}")
 
-    model, processor, config = _load_model()
+    model, processor, config = load_model()
 
     user_message = message.strip()
 
@@ -141,7 +137,7 @@ def analyze_image(image_path: str | Path,message: str = "",) -> str:
     # Qwen3-VL inference uses MLX GPU.
     # A lock prevents two simultaneous demo requests from competing
     # aggressively for the same 16 GB unified-memory pool.
-    with _inference_lock:
+    with inference_lock:
 
         result = generate(
             model,
